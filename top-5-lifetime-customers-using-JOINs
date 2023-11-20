@@ -1,4 +1,4 @@
-
+-- select the top 5 highest paying lifetime customers who reside in a city from the list of top 10 cities with the most customers.
 
 SELECT customer.customer_id AS customer_id,
         customer.first_name AS first_name,
