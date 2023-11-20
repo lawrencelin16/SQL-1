@@ -1,0 +1,32 @@
+This SQL query will demonstrate use of a common table expression (CTE) as part of a larger query to produce a table 
+listing the number of customers and top 5 highest-paying lifetime customers each country has.
+
+-- create the table of the top 5 highest-paying lifetime customers using a CTE for use in a JOIN
+WITH top_5_customers (customer_id, first_name, last_name, country, city, total_amount_paid) AS
+    (SELECT customer.customer_id AS customer_id,
+        customer.first_name AS first_name,
+        customer.last_name AS last_name,
+        country.country AS country,
+        city.city AS city,
+        SUM(payment.amount) AS total_amount_paid
+      FROM customer
+      INNER JOIN address ON customer.address_id = address.address_id
+      INNER JOIN city ON address.city_id = city.city_id
+      INNER JOIN country ON city.country_id = country.country_id
+      INNER JOIN payment ON customer.customer_id = payment.customer_id
+      WHERE city IN ('Aurora', 'Atlixco', 'Xintai', 'Adoni', 'Dhule (Dhulia)',
+                        'Kurashiki', 'Pinxiang', 'Sivas', 'Celaya', 'Nezahualcyotl')
+      GROUP BY customer.customer_id, country, city
+      ORDER BY total_amount_paid DESC
+      LIMIT 5)
+-- create the table of countries with their total counts of all customers and top 5 highest-paying lifetime customers.
+SELECT country.country AS country,
+          COUNT(DISTINCT customer.customer_id) AS all_customer_count,
+          COUNT(DISTINCT top_5_customers.customer_id) AS top_customer_count
+FROM customer
+INNER JOIN address ON customer.address_id = address.address_id
+INNER JOIN city ON address.city_id = city.city_id
+INNER JOIN country ON city.country_id = country.country_id
+-- use a JOIN to integrate the table created using a CTE
+LEFT JOIN top_5_customers ON country.country = top_5_customers.country
+GROUP BY country.country
