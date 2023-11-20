@@ -1,0 +1,20 @@
+-- use of subquery to calculate the average amount paid from the top 5 highest lifetime paying customers.
+
+SELECT AVG(total_amount_paid) AS average
+FROM
+(SELECT customer.customer_id AS customer_id,
+        customer.first_name AS first_name,
+        customer.last_name AS last_name,
+        country.country AS country,
+        city.city AS city,
+        SUM(payment.amount) AS total_amount_paid
+      FROM customer
+      INNER JOIN address ON customer.address_id = address.address_id
+      INNER JOIN city ON address.city_id = city.city_id
+      INNER JOIN country ON city.country_id = country.country_id
+      INNER JOIN payment ON customer.customer_id = payment.customer_id
+      WHERE city IN ('Aurora', 'Atlixco', 'Xintai', 'Adoni', 'Dhule (Dhulia)',
+                        'Kurashiki', 'Pinxiang', 'Sivas', 'Celaya', 'Nezahualcyotl')
+      GROUP BY customer.customer_id, country, city
+      ORDER BY total_amount_paid DESC
+      LIMIT 5) AS total_amount_paid
