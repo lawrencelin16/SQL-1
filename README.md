@@ -1,4 +1,4 @@
-# SQL-1
+# cf-rockbuster-sql
 Repository for SQL queries
 
 This repository contains SQL queries written for a course project named Rockbuster Stealth Data Analysis Project. The SQL queries for this project were used to retrieve, organize, and analyze data in order to answer business questions for how the movie rental company, Rockbuster Stealth, can best craft a launch strategy for its new  online video rental service. 
