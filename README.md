@@ -5,6 +5,7 @@ This repository contains SQL queries written for a course project named Rockbust
 The key business questions are:
 * Which movies contributed the most/least to revenue gain?
 * What was the average rental duration for all videos?
+* What movie genres generated the highest revenue?
 * Which countries are Rockbuster customers based in?
 * Where are customers with a high lifetime value based?
 * Do sales figures vary between geographic regions?
